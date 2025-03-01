@@ -1,57 +1,98 @@
 #include <iostream>
-#include <string>
-#include <tuple>
+#include <map>
+#include <set>
+#include <queue>
+#include <stack>
+#include <vector>
 
-struct Point {
-    int x, y, z;
-};
+using namespace std;
+
+// Task 1: Managing Products with std::map
+void displayInventory(const map<string, int>& inventory) {
+    cout << "Current Inventory:\n";
+    for (const auto& item : inventory) {
+        cout << item.first << ": " << item.second << " in stock\n";
+    }
+    cout << endl;
+}
+
+void addProduct(map<string, int>& inventory, const string& product, int quantity) {
+    inventory[product] += quantity;
+}
+
+// Task 2: Tracking Unique Product Categories with std::set
+void displayCategories(const set<string>& categories) {
+    cout << "Product Categories:\n";
+    for (const auto& category : categories) {
+        cout << "- " << category << "\n";
+    }
+    cout << endl;
+}
+
+// Task 3: Processing Orders with std::queue
+void processOrders(queue<string>& orders) {
+    while (!orders.empty()) {
+        cout << "Processing " << orders.front() << endl;
+        orders.pop();
+    }
+}
+
+// Task 4: Handling Restocks with std::stack
+void processRestocks(stack<pair<string, int>>& restocks, map<string, int>& inventory) {
+    while (!restocks.empty()) {
+        auto item = restocks.top();
+        cout << "Restocking " << item.second << " units of " << item.first << endl;
+        inventory[item.first] += item.second;
+        restocks.pop();
+    }
+}
+
+// Task 5: Storing Customer Purchases with std::vector
+void displayCart(const vector<string>& cart) {
+    cout << "Items in customer cart:\n";
+    for (const auto& item : cart) {
+        cout << "- " << item << "\n";
+    }
+    cout << endl;
+}
 
 int main() {
-    // Part 1: Variable Initialization
-    int a = 10;                   // Direct initialization
-    double b{3.14};               // Uniform initialization
-    std::string c("Hello");      // Direct initialization
-    bool d = true;                // Copy initialization
-    
-    // Print initial values
-    std::cout << "Initial values:" << std::endl;
-    std::cout << "int: " << a << ", double: " << b << ", string: " << c << ", bool: " << d << "\n\n";
+    map<string, int> inventory;
+    set<string> productCategories;
+    queue<string> orders;
+    stack<pair<string, int>> restocks;
+    vector<string> customerCart;
 
-    // Part 2: References
-    int& refA = a;   // Reference to 'a'
-    refA = 20;       // Modifying 'a' through reference
-    double& refB = b;
-    refB = 2.71;
-    std::string& refC = c;
-    refC = "World";
-    bool& refD = d;
-    refD = false;
-    
-    // Print modified values
-    std::cout << "Modified values:" << std::endl;
-    std::cout << "int: " << a << ", double: " << b << ", string: " << c << ", bool: " << d << "\n\n";
-    
-    // Pointer Modification
-    int* ptrA = &a;
-    *ptrA = 100;
-    std::cout << "Pointer modification:" << std::endl;
-    std::cout << "int: " << a << "\n\n";
+    // Managing Products
+    addProduct(inventory, "Laptop", 5);
+    addProduct(inventory, "Mouse", 20);
+    addProduct(inventory, "Keyboard", 10);
+    displayInventory(inventory);
 
-    // Part 3: Structured Binding
-    Point p{5, 10, 15};
-    auto [x, y, z] = p; // Unpacking struct members
-    
-    // Print structured binding values
-    std::cout << "Structured Binding:" << std::endl;
-    std::cout << "x: " << x << ", y: " << y << ", z: " << z << "\n\n";
-    
-    // Part 4: Identifying l-values and r-values
-    // a = 42; // 'a' is an l-value, '42' is an r-value
-    // int x = a + b; // 'a' and 'b' are l-values, (a + b) is an r-value
-    // &a; // 'a' is an l-value, '&a' is an r-value
-    // std::string s = c + " World"; // 'c' is an l-value, " World" is an r-value, (c + " World") is an r-value
-    // int& refX = x; // 'x' is an l-value, 'refX' is an l-value reference
-    // int&& rref = 100; // '100' is an r-value, 'rref' is an r-value reference
+    // Tracking Categories
+    productCategories.insert("Electronics");
+    productCategories.insert("Accessories");
+    productCategories.insert("Peripherals");
+    displayCategories(productCategories);
+
+    // Processing Orders
+    orders.push("Order#1: Laptop");
+    orders.push("Order#2: Mouse");
+    orders.push("Order#3: Keyboard");
+    processOrders(orders);
+
+    // Handling Restocks
+    restocks.push({"Mouse", 10});
+    restocks.push({"Laptop", 2});
+    restocks.push({"Keyboard", 5});
+    processRestocks(restocks, inventory);
+    displayInventory(inventory);
+
+    // Customer Purchases
+    customerCart.push_back("Laptop");
+    customerCart.push_back("Mouse");
+    customerCart.push_back("Keyboard");
+    displayCart(customerCart);
     
     return 0;
 }
